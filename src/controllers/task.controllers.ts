@@ -31,7 +31,7 @@ export async function getTasks(req: RequestWithUser, res: Response) {
  * information.
  * @param {Response} res - Response object from Express, used to send HTTP responses to the client.
  */
-export async function generateTask(req: RequestWithUser, res: Response) {
+export async function generateTask(req, res) {
   const user = req.user;
   const { title, description } = req.body;
 
@@ -49,7 +49,7 @@ export async function generateTask(req: RequestWithUser, res: Response) {
   }
 }
 
-export async function removeTask(req: RequestWithUser, res: Response) {
+export async function removeTask(req, res) {
   const user = req.user;
   const taskId = parseInt(req.params.id);
   if (!taskId) {
