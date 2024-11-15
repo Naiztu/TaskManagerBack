@@ -1,4 +1,11 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from "typeorm";
+import { User } from "./user.entity";
 
 @Entity({
   name: "task",
@@ -18,4 +25,18 @@ export class Task {
     name: "description",
   })
   description: string;
+
+  @ManyToOne(() => User, {
+    cascade: true,
+    onDelete: "CASCADE",
+  })
+  @JoinColumn({
+    name: "user_id",
+  })
+  user: User;
+
+  @Column({
+    name: "user_id",
+  })
+  userId: number;
 }
