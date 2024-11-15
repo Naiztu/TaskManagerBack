@@ -35,6 +35,12 @@ export async function generateTask(req: RequestWithUser, res: Response) {
   const user = req.user;
   const { title, description } = req.body;
 
+  if (!title || !description) {
+    return res
+      .status(400)
+      .json({ message: "Title and description are required" });
+  }
+
   try {
     await createTask(title, description, user.id);
     res.status(201).json({ message: "Task created" });
@@ -46,6 +52,9 @@ export async function generateTask(req: RequestWithUser, res: Response) {
 export async function removeTask(req: RequestWithUser, res: Response) {
   const user = req.user;
   const taskId = parseInt(req.params.id);
+  if (!taskId) {
+    return res.status(400).json({ message: "Task ID is required" });
+  }
 
   try {
     await deleteTaskByIdAndUserId(user.id, taskId);
