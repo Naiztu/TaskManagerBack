@@ -1,5 +1,9 @@
 import { Response } from "express";
-import { createTask, getTaskByUserId } from "../model/task.model";
+import {
+  createTask,
+  deleteTaskByIdAndUserId,
+  getTaskByUserId,
+} from "../model/task.model";
 import { RequestWithUser } from "../types/requestWithUser";
 
 /**
@@ -34,6 +38,18 @@ export async function generateTask(req: RequestWithUser, res: Response) {
   try {
     await createTask(title, description, user.id);
     res.status(201).json({ message: "Task created" });
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error" });
+  }
+}
+
+export async function removeTask(req: RequestWithUser, res: Response) {
+  const user = req.user;
+  const taskId = parseInt(req.params.id);
+
+  try {
+    await deleteTaskByIdAndUserId(user.id, taskId);
+    res.status(200).json({ message: "Task deleted" });
   } catch (error) {
     res.status(500).json({ message: "Internal server error" });
   }

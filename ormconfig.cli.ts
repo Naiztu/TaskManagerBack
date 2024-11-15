@@ -10,10 +10,13 @@ const ormconfig = new DataSource({
   database: process.env.DB_DATABASE,
   entities: [__dirname + "/src/database/entities/*.entity{.ts,.js}"],
   migrations: [__dirname + "/src/database/migrations/*{.ts,.js}"],
+  subscribers: [__dirname + "/src/database/subscribers/*{.ts,.js}"],
   migrationsTableName: "migrations",
   migrationsRun: true,
   synchronize: false,
   logging: false,
 });
+
+ormconfig.initialize();
 
 export default ormconfig;

@@ -18,7 +18,7 @@ import * as jwt from "jsonwebtoken";
  * Otherwise, if the user is successfully created, a response with status code 201 and a JSON object
  * containing the message "User created" will be returned.
  */
-export async function registesUser(req: Request, res: Response) {
+export const registerUser = async (req, res) => {
   const { email, password } = req.body;
 
   const encryptedPassword = await hashPassword(password);
@@ -26,11 +26,12 @@ export async function registesUser(req: Request, res: Response) {
   try {
     await createUser(email, encryptedPassword);
   } catch (error) {
-    return res.status(500).json({ message: "Internal server error" });
+    console.error("Error creating user:", error);
+    return res.status(500).json({ message: "Internal server error" , error});
   }
 
   res.status(201).json({ message: "User created" });
-}
+};
 
 /**
  * The function `loginUser` handles user authentication by checking the email and password, generating
@@ -44,7 +45,7 @@ export async function registesUser(req: Request, res: Response) {
  * message "Unauthorized" is being returned. If the user is successfully authenticated, a token and the
  * user object are being returned in a response with status code 200.
  */
-export async function loginUser(req: Request, res: Response) {
+export const loginUser = async (req, res) => {
   const { email, password } = req.body;
 
   const user = await getUserByEmail(email);
@@ -59,4 +60,4 @@ export async function loginUser(req: Request, res: Response) {
   const token = jwt.sign({ ...user }, process.env.JWT_SECRET);
 
   res.status(200).json({ token, user });
-}
+};
