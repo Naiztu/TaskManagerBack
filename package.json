@@ -6,7 +6,11 @@
   "scripts": {
     "start": "ts-node ./src/index.ts",
     "start:dev": "nodemon",
-    "build": "tsc"
+    "build": "tsc",
+    "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js -d ormconfig.cli.ts",
+    "typeorm:migrate": "pnpm run typeorm migration:generate",
+    "typeorm:run": "pnpm run typeorm migration:run",
+    "typeorm:revert": "pnpm run typeorm migration:revert"
   },
   "author": "Covicake",
   "license": "ISC",
@@ -28,6 +32,7 @@
     "@types/node": "^22.9.0",
     "nodemon": "^3.1.7",
     "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
     "tslint": "^5.20.1",
     "typescript": "^5.6.3"
   },
